@@ -18,19 +18,18 @@ let count=0
 io.on('connection', (socket) => {
     console.log('New Socket connection')
 
-    // socket.emit('countUpdated',count)
-
-    // socket.on('increment', () => {
-    //     count++
-    //     //socket.emit('countUpdated',count) //emits only to a specific client
-    //     io.emit('countUpdated',count)
-    // })
-
     socket.emit('message','Welcome!')
+
     socket.broadcast.emit('message','New user joinied')
-    socket.on('sendMessage', (data) => {
-        io.emit('message', data)
+    
+    socket.on('sendMessage', (message) => {
+        io.emit('message', message)
     })
+
+    socket.on('sendLocation',(location) => {
+        io.emit('Location - ', location)
+    })
+
     socket.on('disconnect', () => {
         io.emit('message','User has left')
     })
